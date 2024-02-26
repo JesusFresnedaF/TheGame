@@ -11,7 +11,9 @@ import thegamecontroller.dtos.CoordinatesDTO;
 import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -20,14 +22,14 @@ import java.util.Iterator;
 public class LocalModel {
 
     private LocalController controller;
-    private volatile ArrayList<Bola> bolas;
+    private volatile List<Bola> bolas;
 
     private Dimension dimensionFrame;
 
     public LocalModel(LocalController controller, Dimension dimensionFrame) {
         this.dimensionFrame = dimensionFrame;
         this.controller = controller;
-        this.bolas = new ArrayList<>();
+        this.bolas = Collections.synchronizedList(new ArrayList<>());
     }
 
     //calculo la siguiente posición de la bola
@@ -57,7 +59,7 @@ public class LocalModel {
         CoordinatesDTO nuevaPosicion = new CoordinatesDTO(nuevaPosX, nuevaPosY);
 
         //compruebo los posibles casos de collide
-        ArrayList<Boolean> collide = controller.collideDetector(bolas, nuevaPosicion, bola);
+        List<Boolean> collide = controller.collideDetector(bolas, nuevaPosicion, bola);
 
         //colisión horizontal
         //mandar bola
@@ -101,12 +103,12 @@ public class LocalModel {
         return bolaImpacto;
     }
 
-    public void setBolas(ArrayList<Bola> bolas) {
+    public void setBolas(List<Bola> bolas) {
         this.bolas = bolas;
     }
 
     //añado una bola
-    public ArrayList<Bola> addBola(CoordinatesDTO newPositionDTO) {
+    public List<Bola> addBola(CoordinatesDTO newPositionDTO) {
         Bola b = new Bola(this);
         b.setPosicion(newPositionDTO);
         bolas.add(b);
@@ -114,7 +116,7 @@ public class LocalModel {
     }
 
     //añado una bola
-    public ArrayList<Bola> addBola(Bola bola) {
+    public List<Bola> addBola(Bola bola) {
         if (bola.getModel() == null) {
             bola.setModel(this);
         }

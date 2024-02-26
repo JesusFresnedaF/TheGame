@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -27,8 +29,8 @@ public class LocalViewer extends JFrame implements MouseListener, Runnable {
     private ControlPanel panel;
     private Viewer canvas;
 
-    private volatile ArrayList<Bola> bolas;
-    private volatile ArrayList<Thread> thBolas;
+    private volatile List<Bola> bolas;
+    private volatile List<Thread> thBolas;
     private Dimension dimensionFrame;
 
     public LocalViewer(LocalController controller, Dimension dimension) {
@@ -42,8 +44,8 @@ public class LocalViewer extends JFrame implements MouseListener, Runnable {
     //inicializo los atributos de la ventana
     public void initAtributos(Dimension dimension) {
         this.dimensionFrame = dimension;
-        this.bolas = new ArrayList<>();
-        this.thBolas = new ArrayList<>();
+        this.bolas = Collections.synchronizedList(new ArrayList<>());
+        this.thBolas = Collections.synchronizedList(new ArrayList<>());
     }
 
     public void addOnClick() {
@@ -74,7 +76,7 @@ public class LocalViewer extends JFrame implements MouseListener, Runnable {
         this.add(canvas, gbc);
     }
 
-    public ArrayList<Bola> getBolas() {
+    public List<Bola> getBolas() {
         return this.canvas.getBolas();
     }
 

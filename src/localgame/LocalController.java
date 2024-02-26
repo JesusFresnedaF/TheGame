@@ -7,8 +7,10 @@ package localgame;
 import thegamecontroller.objetos.Bola;
 import thegamecontroller.dtos.CoordinatesDTO;
 import java.awt.Dimension;
-import java.io.Serializable;
+import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import thegamecontroller.TheGamePController;
 
 /**
@@ -22,12 +24,13 @@ public class LocalController{
     private LocalModel tgm;
     private GameRules rules;
 
-    private ArrayList<Bola> bolas;
+    private List<Bola> bolas;
 
     private Dimension defaultFrameDimension = new Dimension(900, 800);
     private Dimension frameDimension = defaultFrameDimension;
 
     public LocalController(TheGamePController tgpController) {
+        this.bolas = Collections.synchronizedList(new ArrayList<>());
         this.bolas = new ArrayList<>();
         this.tgpController = tgpController;
         this.rules = new GameRules(this.frameDimension);
@@ -42,25 +45,26 @@ public class LocalController{
     }
 
     //añado una bola
-    public ArrayList<Bola> addBola(CoordinatesDTO newPosition) {
+    public List<Bola> addBola(CoordinatesDTO newPosition) {
         bolas = tgm.addBola(newPosition);
         return bolas;
     }
 
     //añado una bola
-    public ArrayList<Bola> addBola(Bola bola) {
+    public List<Bola> addBola(Bola bola) {
+        rules.invertirBola(bola);
         bolas = tgm.addBola(bola);
         tgv.addBola(bola);
         return bolas;
     }
 
     //compruebo las normas de colisión
-    public ArrayList<Boolean> collideDetector(ArrayList<Bola> bolas, CoordinatesDTO newPosition, Bola bola) {
-        ArrayList<Boolean> choques = rules.collideDetector(bolas, newPosition, bola);
+    public List<Boolean> collideDetector(List<Bola> bolas, CoordinatesDTO newPosition, Bola bola) {
+        List<Boolean> choques = rules.collideDetector(bolas, newPosition, bola);
         return choques;
     }
     
-    public ArrayList<Bola> getBolas() {
+    public List<Bola> getBolas() {
         return this.bolas;
     }
 

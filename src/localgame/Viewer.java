@@ -10,7 +10,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -19,19 +21,19 @@ import java.util.Iterator;
 public class Viewer extends Canvas{
 
     private Dimension frameDimension;
-    ArrayList<Bola> bolas;
+    List<Bola> bolas;
 
     public Viewer(Dimension defaultDimension) {
+        this.bolas = Collections.synchronizedList(new ArrayList<>());
         frameDimension = defaultDimension;
-        this.bolas = new ArrayList<>();
         setSize(frameDimension);
     }
 
-    public void setBolas(ArrayList<Bola> bolas) {
+    public void setBolas(List<Bola> bolas) {
         this.bolas = bolas;
     }
 
-    public ArrayList<Bola> getBolas() {
+    public List<Bola> getBolas() {
         return bolas;
     }
 

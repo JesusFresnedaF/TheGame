@@ -12,7 +12,9 @@ import thegamecontroller.dtos.GateState;
 import thegamecontroller.dtos.WallLocation;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import javax.swing.text.Position;
 
 /**
@@ -21,7 +23,7 @@ import javax.swing.text.Position;
  */
 public class GameRules {
 
-    private ArrayList<Object> objetos;
+    private List<Object> objetos;
     private Wall walls[];
     private Gate gates[];
 
@@ -29,9 +31,9 @@ public class GameRules {
 
     public GameRules(Dimension defaultDimension) {
         this.dimensionFrame = defaultDimension;
+        this.objetos = Collections.synchronizedList(new ArrayList<>());
         walls = new Wall[2];
         gates = new Gate[2];
-        this.objetos = new ArrayList<>();
         initWalls();
         initGates();
 
@@ -52,7 +54,7 @@ public class GameRules {
         gates[0] = new Gate();
         gates[1] = new Gate();
         gates[0].setLocation(WallLocation.EAST);
-        gates[0].setState(GateState.CLOSED);
+        gates[0].setState(GateState.OPEN);
         gates[1].setLocation(WallLocation.WEST);
         gates[1].setState(GateState.OPEN);
         objetos.add(gates[0]);
@@ -60,7 +62,7 @@ public class GameRules {
     }
 
     //compruebo los posibles casos de colisión
-    public ArrayList<Boolean> collideDetector(ArrayList<Bola> bolas, CoordinatesDTO newPosition, Object obj) {
+    public List<Boolean> collideDetector(List<Bola> bolas, CoordinatesDTO newPosition, Object obj) {
         ArrayList<Boolean> collide = new ArrayList<>();
         addBolasToList(bolas);
         boolean rebotes[] = collideWalls(newPosition, obj);
@@ -73,7 +75,7 @@ public class GameRules {
     }
 
     //añado la lista de bolas a la lista de objetos
-    private void addBolasToList(ArrayList<Bola> bolas) {
+    private void addBolasToList(List<Bola> bolas) {
         Iterator<Bola> iterador = bolas.iterator();
         while (iterador.hasNext()) {
             Bola b = iterador.next();
@@ -117,8 +119,6 @@ public class GameRules {
                     if (gates[i].getLocation() == WallLocation.WEST) {
                         //si la puerta está abierta la mando
                         if (gates[i].getState() == GateState.OPEN) {
-                            CoordinatesDTO newPCoordinatesDTO = bola.getPosicion();
-                            newPCoordinatesDTO.setX(dimensionFrame.width + bola.getDiam());
                             sendBola = true;
                         } //si no, rebota
                         else {
@@ -142,8 +142,6 @@ public class GameRules {
                     if (gates[i].getLocation() == WallLocation.EAST) {
                         //si la puerta está abierta la mando
                         if (gates[i].getState() == GateState.OPEN) {
-                            CoordinatesDTO newPCoordinatesDTO = bola.getPosicion();
-                            newPCoordinatesDTO.setX(bola.getDiam());
                             sendBola = true;
                         } //si no, rebota
                         else {
@@ -169,8 +167,6 @@ public class GameRules {
                     if (gates[i].getLocation() == WallLocation.NORTH) {
                         //si la puerta está abierta la mando
                         if (gates[i].getState() == GateState.OPEN) {
-                            CoordinatesDTO newPCoordinatesDTO = bola.getPosicion();
-                            newPCoordinatesDTO.setY(dimensionFrame.height + bola.getDiam());
                             sendBola = true;
                         } //si no, rebota
                         else {
@@ -194,8 +190,6 @@ public class GameRules {
                     if (gates[i].getLocation() == WallLocation.SOUTH) {
                         //si la puerta está abierta la mando
                         if (gates[i].getState() == GateState.OPEN) {
-                            CoordinatesDTO newPCoordinatesDTO = bola.getPosicion();
-                            newPCoordinatesDTO.setY(bola.getDiam());
                             sendBola = true;
                         } //si no, rebota
                         else {
@@ -210,7 +204,7 @@ public class GameRules {
     }
 
     //compruebo la colisión de un objeto con una bola
-    public boolean collideObjectToBola(ArrayList<Bola> bolas, Object object) {
+    public boolean collideObjectToBola(List<Bola> bolas, Object object) {
         boolean choque = false;
         Bola bolaActual = null;
         //el objeto es una bola
@@ -222,7 +216,7 @@ public class GameRules {
     }
 
     //compruebo la colisión de una bola con otra bola
-    public boolean collideBolaToBola(ArrayList<Bola> bolas, Bola bola) {
+    public boolean collideBolaToBola(List<Bola> bolas, Bola bola) {
         boolean choque = false;
         Iterator<Bola> iterator = bolas.iterator();
         if (bolas.size() > 1) {
@@ -239,5 +233,26 @@ public class GameRules {
     //cambio el tamaño de la ventana
     public void changeFrameDimension(Dimension newFrameDimension) {
         this.dimensionFrame = newFrameDimension;
+    }
+
+    public void invertirBola(Bola bola) {
+        CoordinatesDTO newPosition = bola.getPosicion();
+
+        if (newPosition.getX() <= bola.getDiam()) {
+            System.out.println("IZQUIERDA");
+            newPosition.setX((int) (dimensionFrame.getWidth() - bola.getDiam()));
+        } else if (newPosition.getX() >= dimensionFrame.getWidth() - bola.getDiam() * 2) {
+            System.out.println("DERECHA");
+            newPosition.setX(bola.getDiam());
+        }
+
+        if (newPosition.getY() <= bola.getDiam()) {
+            System.out.println("ARRIBA");
+            newPosition.setY((int) (dimensionFrame.getHeight() - bola.getDiam()));
+        } else if (newPosition.getY() >= dimensionFrame.getHeight() - bola.getDiam() * 2) {
+            System.out.println("ABAJO");
+            newPosition.setY(bola.getDiam());
+        }
+        bola.setPosicion(newPosition);
     }
 }
