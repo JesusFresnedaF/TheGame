@@ -1,46 +1,42 @@
 /*
-    DTO para la aceleración de los objetos
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package thegamecontroller.dtos;
 
-import java.io.Serializable;
+import java.util.Random;
 
 /**
  *
  * @author jesus
  */
-public class AcelerationDTO implements Serializable {
-
-    private double aceleracionX, aceleracionY;
+public class AcelerationDTO extends VectorDTO {
 
     public AcelerationDTO() {
-        this.aceleracionX = 2;
-        this.aceleracionY = 2;
+        super();
+        Random rand = new Random();
+        super.setX(rand.nextDouble(11) - 5); // Genera valores entre -5 y 5
+        super.setY(rand.nextDouble(11) - 5); // Genera valores entre -5 y 5
     }
 
     public AcelerationDTO(int aceleracionX, int aceleracionY) {
-        this.aceleracionX = aceleracionX;
-        this.aceleracionY = aceleracionY;
+        super.setX(aceleracionX);
+        super.setY(aceleracionY);
     }
 
     public double getAceleracionX() {
-        return aceleracionX;
+        return super.getX();
     }
 
     public void setAceleracionX(double aceleracionX) {
-        this.aceleracionX = aceleracionX;
+        super.setX(aceleracionX);
     }
 
     public double getAceleracionY() {
-        return aceleracionY;
+        return super.getX();
     }
 
     public void setAceleracionY(double aceleracionY) {
-        this.aceleracionY = aceleracionY;
-    }
-
-    @Override
-    public String toString() {
-        return "AcelerationDTO{" + "aceleracionX=" + aceleracionX + ", aceleracionY=" + aceleracionY + '}';
+        super.setY(aceleracionY);
     }
 }

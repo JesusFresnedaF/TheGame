@@ -5,7 +5,6 @@ package thegamecontroller;
 
 import localgame.LocalController;
 import comms.CommsController;
-import java.io.Serializable;
 import java.util.ArrayList;
 import thegamecontroller.dtos.*;
 import thegamecontroller.objetos.*;

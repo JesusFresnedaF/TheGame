@@ -9,7 +9,6 @@ import thegamecontroller.dtos.VelocityDTO;
 import thegamecontroller.dtos.AcelerationDTO;
 import thegamecontroller.dtos.CoordinatesDTO;
 import java.awt.Dimension;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -35,8 +34,8 @@ public class LocalModel {
     //calculo la siguiente posición de la bola
     public CoordinatesDTO calcNewPositions(Bola bola) {
         float time = (float) 0.4;
-        VelocityDTO velocidad = bola.getVelocidad();
-        AcelerationDTO aceleracion = bola.getAceleracion();
+        VelocityDTO velocidad = (VelocityDTO) bola.getVelocidad();
+        AcelerationDTO aceleracion = (AcelerationDTO) bola.getAceleracion();
         CoordinatesDTO prevPosicion = bola.getPosicion();
 
         // Cálculo de la nueva velocidad en cada eje

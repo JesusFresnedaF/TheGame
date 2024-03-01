@@ -3,10 +3,11 @@
  */
 package thegamecontroller.objetos;
 
+import thegamecontroller.dtos.AcelerationDTO;
 import thegamecontroller.dtos.VODState;
 import thegamecontroller.dtos.CoordinatesDTO;
+import thegamecontroller.dtos.VectorDTO;
 import thegamecontroller.dtos.VelocityDTO;
-import thegamecontroller.dtos.AcelerationDTO;
 
 /**
  *
@@ -66,6 +67,7 @@ public class VODynamic extends VisualObject{
     }
 
     public void setPosition(CoordinatesDTO position) {
+        System.out.println(position);
         this.position = position;
     }
 

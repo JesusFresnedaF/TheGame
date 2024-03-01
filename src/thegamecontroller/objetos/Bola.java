@@ -3,21 +3,22 @@
  */
 package thegamecontroller.objetos;
 
-import thegamecontroller.dtos.VelocityDTO;
-import thegamecontroller.dtos.AcelerationDTO;
 import thegamecontroller.dtos.CoordinatesDTO;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import localgame.LocalModel;
+import thegamecontroller.dtos.AcelerationDTO;
 import thegamecontroller.dtos.VODState;
+import thegamecontroller.dtos.VectorDTO;
+import thegamecontroller.dtos.VelocityDTO;
 
 /**
  *
  * @author jesus
  */
-public class Bola extends VODynamic implements Runnable{
+public class Bola extends VODynamic implements Runnable {
 
     //ATRIBUTOS
     public static final int VIDA_MAX = 200;
@@ -62,8 +63,8 @@ public class Bola extends VODynamic implements Runnable{
     public int getId() {
         return id;
     }
-    
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -85,7 +86,7 @@ public class Bola extends VODynamic implements Runnable{
         super.setVelocity(velocidad);
     }
 
-    public AcelerationDTO getAceleracion() {
+    public VectorDTO getAceleracion() {
         return super.getAcceleration();
     }
 
@@ -113,38 +114,38 @@ public class Bola extends VODynamic implements Runnable{
 
     //--------------------------------------------------
     //VELOCIDAD
-    public float getVelX() {
-        return super.getVelocity().getVelocidadX();
+    public double getVelX() {
+        return super.getVelocity().getX();
     }
 
-    public float getVelY() {
-        return super.getVelocity().getVelocidadY();
+    public double getVelY() {
+        return super.getVelocity().getY();
     }
 
-    public synchronized void setVelX(float velX) {
-        super.getVelocity().setVelocidadX(velX);
+    public synchronized void setVelX(double velX) {
+        super.getVelocity().setX(velX);
     }
 
-    public synchronized void setVelY(float velY) {
-        super.getVelocity().setVelocidadY(velY);
+    public synchronized void setVelY(double velY) {
+        super.getVelocity().setY(velY);
     }
 
     //--------------------------------------------------
     //ACELERACION
     public double getAccX() {
-        return super.getAcceleration().getAceleracionX();
+        return super.getAcceleration().getX();
     }
 
     public double getAccY() {
-        return super.getAcceleration().getAceleracionY();
+        return super.getAcceleration().getY();
     }
 
-    public synchronized void setAccX(int accX) {
-        super.getAcceleration().setAceleracionX(accX);
+    public synchronized void setAccX(double accX) {
+        super.getAcceleration().setX(accX);
     }
 
-    public synchronized void setAccY(int accY) {
-        super.getAcceleration().setAceleracionY(accY);
+    public synchronized void setAccY(double accY) {
+        super.getAcceleration().setY(accY);
     }
 
     //--------------------------------------------------
@@ -239,12 +240,12 @@ public class Bola extends VODynamic implements Runnable{
 
     @Override
     public synchronized void rebotarX() {
-        super.getVelocity().setVelocidadX(-super.getVelocity().getVelocidadX());
+        super.getVelocity().setX(-super.getVelocity().getX());
     }
 
     @Override
     public synchronized void rebotarY() {
-        super.getVelocity().setVelocidadY(-super.getVelocity().getVelocidadY());
+        super.getVelocity().setY(-super.getVelocity().getY());
     }
 
     @Override
@@ -287,17 +288,17 @@ public class Bola extends VODynamic implements Runnable{
             }
         }
     }
-    
-    public boolean isPing(){
+
+    public boolean isPing() {
         return this.id == -1;
     }
 
     @Override
     public String toString() {
-        return  "masa=" + masa + ",radio=" + radio + ",diam=" + diam + 
-                ",vida=" + vida + ",posX="+ getPosition().getX()+ 
-                ",posY="+getPosY()+",velX="+getVelX()+ ",velY="+getVelY()+
-                ",accX"+getAccX()+",accY="+getAccY();
+        return "masa=" + masa + ",radio=" + radio + ",diam=" + diam
+                + ",vida=" + vida + ",posX=" + getPosition().getX()
+                + ",posY=" + getPosY() + ",velX=" + getVelX() + ",velY=" + getVelY()
+                + ",accX" + getAccX() + ",accY=" + getAccY();
     }
 
     public void setModel(LocalModel model) {
@@ -307,6 +308,5 @@ public class Bola extends VODynamic implements Runnable{
     public LocalModel getModel() {
         return this.model;
     }
-    
 
 }

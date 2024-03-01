@@ -1,5 +1,6 @@
 /*
-    DTO para la velocidad de los objetos
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package thegamecontroller.dtos;
 
@@ -10,25 +11,25 @@ import java.util.Random;
  *
  * @author jesus
  */
-public class VelocityDTO implements Serializable {
+public class VelocityDTO extends VectorDTO {
 
-    private float velocidadX, velocidadY;
     public static final float MAX_VEL = 40;
     public static final float MIN_VEL = -40;
 
     public VelocityDTO() {
+        super();
         Random rand = new Random();
-        this.velocidadX = rand.nextFloat(11) - 5; // Genera valores entre -5 y 5
-        this.velocidadY = rand.nextFloat(11) - 5; // Genera valores entre -5 y 5
+        super.setX(rand.nextDouble(11) - 5); // Genera valores entre -5 y 5
+        super.setY(rand.nextDouble(11) - 5); // Genera valores entre -5 y 5
     }
 
     public VelocityDTO(float velocidadX, float velocidadY) {
-        this.velocidadX = velocidadX;
-        this.velocidadY = velocidadY;
+        super.setX(velocidadX);
+        super.setY(velocidadY);
     }
 
-    public float getVelocidadX() {
-        return velocidadX;
+    public double getVelocidadX() {
+        return super.getX();
     }
 
     public void setVelocidadX(float velocidadX) {
@@ -37,18 +38,18 @@ public class VelocityDTO implements Serializable {
             signo = false;
         }
         if (Math.abs(velocidadX) > MAX_VEL) {
-            this.velocidadX = velocidadX;
+            super.setX(velocidadX);
         } else {
             if (!signo) {
-                this.velocidadX = MIN_VEL;
+                super.setX(velocidadX);
             } else {
-                this.velocidadX = MAX_VEL;
+                super.setX(velocidadX);
             }
         }
     }
 
-    public float getVelocidadY() {
-        return velocidadY;
+    public double getVelocidadY() {
+        return super.getY();
     }
 
     public void setVelocidadY(float velocidadY) {
@@ -57,18 +58,14 @@ public class VelocityDTO implements Serializable {
             signo = false;
         }
         if (Math.abs(velocidadY) > MAX_VEL) {
-            this.velocidadY = velocidadY;
+            super.setY(velocidadY);
         } else {
             if (!signo) {
-                this.velocidadY = MIN_VEL;
+            super.setY(velocidadY);
             } else {
-                this.velocidadY = MAX_VEL;
+            super.setY(velocidadY);
             }
         }
     }
 
-    @Override
-    public String toString() {
-        return "VelocityDTO{" + "velocidadX=" + velocidadX + ", velocidadY=" + velocidadY + '}';
-    }
 }
